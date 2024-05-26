@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
+import data from './data.json'
+import { motion } from 'framer-motion'
 
 function App() {
     const [text, setText] = useState('');
@@ -8,6 +10,7 @@ function App() {
     const [charIndex, setCharIndex] = useState(0);
     const [showCursor, setShowCursor] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
+   
 
     useEffect(() => {
         const typingEffect = setInterval(() => {
@@ -36,7 +39,12 @@ function App() {
             clearInterval(typingEffect);
         };
     }, [charIndex, wordIndex, isDeleting]);
-
+    const handleScrollDown = () => {
+        window.scrollTo({
+            top: window.innerHeight, // Scrolls down by one viewport height
+            behavior: 'smooth',      // Smooth scrolling
+        });
+    };
     // Function to toggle cursor visibility (blink effect)
     useEffect(() => {
         const cursorBlink = setInterval(() => {
@@ -49,72 +57,36 @@ function App() {
     }, []);
 
     return (
-        <>
-            <div className='intro-flex'>
+        <div className='container'>
+            <div className='intro-flex' id="home" >
                 <div className='intro-section'>
-                    <h1>Hi there I am <span className='text-name'>Himanshu</span></h1>
+                    <h1>Hi there! I'm <span className='text-name'>Himanshu Sharma</span></h1>
                     <h3>
-                        I'm  into <span style={{ color: 'blueviolet' }}>{text}</span>
+                        I'm  into <span style={{ color: '#F97300' }}>{text}</span>
                         {showCursor && <span className="cursor">|</span>}
                     </h3>
-                    <div className="socials">
-                        <ul className="social-icons">
-                            <li className='no-margin'>
-                                <a
-                                    className="linkedin"
-                                    aria-label="LinkedIn"
-                                    href="https://www.linkedin.com/in/himanshusharma991009/"
-                                >
-                                    <i className="fab fa-linkedin" />
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="github"
-                                    aria-label="GitHub"
-                                    href="https://github.com/himanshu99100"
-
-                                >
-                                    <i className="fab fa-github" />
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="twitter"
-                                    aria-label="Twitter"
-                                    href="https://twitter.com/jigar_sable"
-                                >
-                                    <i className="fab fa-twitter" />
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="telegram"
-                                    aria-label="Telegram"
-                                    href="https://t.me/lifecode5"
-
-                                >
-                                    <i className="fab fa-telegram-plane" />
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="instagram"
-                                    aria-label="Instagram"
-                                    href="https://www.instagram.com/jigarsable.dev"
-                                >
-                                    <i className="fab fa-instagram" />
-                                </a>
-                            </li>
-                        </ul>
+                    <div className='social-icons'>
+                        {data.intro.socialLinks.map((item, index) => (
+                            <a className={item.platform} target='_blank' href={item.url} key={index}>
+                                <i className={item.iconClass}></i>
+                            </a>
+                        ))}
                     </div>
-                    <h3>About Me</h3>
-                    <p>
-                        I'm a creative Full Stack Developer who believes in the power of technology to drive innovation. With a background in design and a knack for coding, I merge aesthetics with functionality to build visually stunning and robust web applications. My experience spans various industries, and I'm always eager to take on new challenges, pushing the boundaries of what's possible in the world of Full Stack Development.
-                    </p>
+                    <div className='intro-lines' style={{ width: "30rem" }}>
+                        I'm a passionate software developer with expertise in frontend and backend technologies like React, PHP, Node.js, MySQL, MongoDB, and others. If you have any projects that require my skills, don't hesitate to contact me.
+                    </div>
                 </div>
-                <div className='intro-img'>
-                    <img
+
+                <div
+
+                    className='intro-img' >
+                    <motion.img
+                       animate={{ x: 100 }}
+                       transition={{
+                           ease: "linear",
+                           duration: 2,
+                           x: { duration: 1 }
+                         }}
                         draggable="false"
                         className="img"
                         src='/myImage.jpg'
@@ -122,9 +94,17 @@ function App() {
                     />
                 </div>
             </div>
+            <div className='center'>
+                <button className='scroll-button'
+                    onClick={handleScrollDown}
+                >
+                    <i   className=" fa-solid fa-arrow-down"></i>
+                </button>
+            </div>
 
 
-        </>
+
+        </div>
     );
 }
 
